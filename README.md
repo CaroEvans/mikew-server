@@ -1,2 +1,2 @@
 # Mike W Server
-[![Build Status](https://travis-ci.org/ShaunSpinelli/mikew-server.svg?branch=master)](https://travis-ci.org/ShaunSpinelli/mikew-server)![https://david-dm.org/ShaunSpinelli/ca-collab-server.svg]()
+[![Build Status](https://travis-ci.org/ShaunSpinelli/mikew-server.svg?branch=master)](https://travis-ci.org/ShaunSpinelli/mikew-server)![](https://david-dm.org/ShaunSpinelli/ca-collab-server.svg)
