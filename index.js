@@ -6,11 +6,17 @@ const express= require('express')
 const app = express()
 
 // middleware
-// const bookings = require('./routes/bookings')
+const bodyParser = require('body-parser')
+const cors = require('cors')
+
+app.use(bodyParser.json())
+app.use(cors())
+
+const bookings = require('./routes/bookings')
 // const users = require('./routes/users')
 
 // routing
-// app.use('bookings', bookings)
+app.use('/bookings', bookings)
 // app.use('users', users)
 
 
