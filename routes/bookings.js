@@ -1,4 +1,4 @@
-const  router = require('express').Router()
+const router = require('express').Router()
 const Booking = require('../models/Booking')
 
 router.get('/', (req, res)=>{
@@ -31,7 +31,5 @@ router.post('/new', (req,res)=>{
     .then(booking =>  res.send(booking))
     .catch(err => res.send(err))
 })
-
-
 
 module.exports = router

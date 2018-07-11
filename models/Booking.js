@@ -5,7 +5,7 @@ const Booking = new Schema({
     date: String,
 	startTime:String,
 	endTime:String,
-	clientId:Number,
+	clientId:String,
     cost:Number,
     info:String,
 	bookingStatus:String 
