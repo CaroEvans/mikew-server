@@ -1,5 +1,5 @@
 require('dotenv').config()
-const config = require('./_config');
+const config = require('./mongoSettings');
 const mongoose = require('mongoose')
 const express= require('express')
 
