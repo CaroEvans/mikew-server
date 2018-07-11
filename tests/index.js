@@ -80,14 +80,55 @@ describe('Post /bookings/new', function () {
                 'clientId': '0',
                 'cost': 100,
                 'info':'i want drums and guitars and coll music man',
-                'bookingStatus': 'completed'
+                'bookingStatus': 'pending'
+            })
+            .end((err, res) => {
+                should.equal(err, null)
+                res.should.have.status(200)
+                res.body.should.have.property('date')
+                res.body.cost.should.equal(100)
+                done()
+            })
+    })
+})
+
+describe('PUT/id', function () {
+    this.timeout(15000)
+
+    it('Gets single booking', (done) => {
+        chai.request(app)
+            .put('/bookings/id')
+            .send({
+                'id': '5b454f5d1bba2a61ccd14a2c',
+                'cost': 1234,
+                'info':'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
+                
+            })
+            .end((err, res) => {
+                should.equal(err, null)
+                res.should.have.status(200)
+                done()
+            })
+    })
+})
+
+
+
+describe('GET /id', function () {
+    this.timeout(15000)
+
+    it('Gets single booking', (done) => {
+        chai.request(app)
+            .get('/bookings/id')
+            .send({
+                'id': '5b454f5d1bba2a61ccd14a2c',
             })
             .end((err, res) => {
                 should.equal(err, null)
                 res.should.have.status(200)
                 // res.should.be.json
                 res.body.should.have.property('date')
-                res.body.cost.should.equal(100)
+                res.body.cost.should.equal(1234)
                 done()
             })
     })
