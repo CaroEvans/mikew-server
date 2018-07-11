@@ -19,6 +19,13 @@ router.get('/pending', (req, res)=>{
     .catch(err => res.send(err))
 })
 
+router.get('/cancelled', (req, res)=>{
+    Booking.find({bookingStatus: 'cancelled'})
+    .then(bookings => res.send(bookings))
+    .catch(err => res.send(err))
+})
+
+
 router.post('/new', (req,res)=>{
     Booking.create(req.body)
     .then(booking =>  res.send(booking))
