@@ -19,9 +19,9 @@ const bookings = require('./routes/bookings')
 app.use('/bookings', bookings)
 // app.use('users', users)
 
-
+console.log('URL !!!!!!!!!!!!!!!!!!!!!!!',config.mongoURI[app.settings.env])
 // db connection
-mongoose.connect(config.mongoURI[app.settings.env],(err)=>{
+mongoose.connect(config.mongoURI[app.settings.env],{ useNewUrlParser: true } ,(err)=>{
     if(err){
         console.log('Error:', err.message)
     }else{
