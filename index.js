@@ -8,16 +8,19 @@ const app = express()
 // middleware
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const { initializePassport } = require('./middleware/authentication')
+
 
 app.use(bodyParser.json())
 app.use(cors())
+app.use(initializePassport)
 
 const bookings = require('./routes/bookings')
-// const users = require('./routes/users')
+const users = require('./routes/users')
 
 // routing
 app.use('/bookings', bookings)
-// app.use('users', users)
+app.use('/users', users)
 
 // db connection
 mongoose.connect(config.mongoURI[app.settings.env],{ useNewUrlParser: true } ,(err)=>{
