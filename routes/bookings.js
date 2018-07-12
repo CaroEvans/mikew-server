@@ -25,6 +25,12 @@ router.get('/declined', (req, res)=>{
     .catch(err => res.send(err))
 })
 
+router.get('/approved', (req, res)=>{
+    Booking.find({bookingStatus: 'approved'})
+    .then(bookings => {res.send(bookings)})
+    .catch(err => res.send(err))
+})
+
 router.get('/cancelled', (req, res)=>{
     Booking.find({bookingStatus: 'cancelled'})
     .then(bookings => res.send(bookings))
