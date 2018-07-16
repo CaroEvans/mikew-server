@@ -47,6 +47,14 @@ const register = (req, res, next) => {
   });
 }
 
+// is admin middle ware
+
+const isAdmin = (req, res, next) =>{
+  req.user.role === 'admin' ? next() : res.sendStatus(401)
+}
+
+
+
 // create a JWT (user just logged in or just signed up)
 const signJwtForUser = (req, res) => {
   const user = req.user
