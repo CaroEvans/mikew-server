@@ -33,8 +33,10 @@ passport.use(new PassportJwt.Strategy({
 
 // register middleware (create new user in our database)
 const register = (req, res, next) => {
-  console.log('Registering', req.body.email)
-  User.register(new User({ email: req.body.email }), req.body.password, (err, user) => {
+
+ const {firstName, lastName, email, phoneNumber, password, role, profileImg} = req.body
+
+  User.register(new User({ firstName, lastName, email, phoneNumber, role, profileImg}), password, (err, user) => {
     if (err) {
       return res.status(500).send(err.message)
     }
@@ -48,8 +50,6 @@ const register = (req, res, next) => {
 // create a JWT (user just logged in or just signed up)
 const signJwtForUser = (req, res) => {
   const user = req.user
-
-  console.log('Generating JWT for', user.email)
 
   // create a signed token
   const token = JWT.sign(
