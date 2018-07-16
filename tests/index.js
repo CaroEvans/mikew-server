@@ -133,3 +133,45 @@ describe('GET /id', function () {
             })
     })
 })
+
+describe('Post /contact/new', function () {
+    this.timeout(15000)
+
+    it('creates new booking', (done) => {
+        chai.request(app)
+            .post('/contact/new')
+            .send({
+                name: 'Jim',
+                email: 'jim2emial.com',
+                phone: '098963923',
+                artist: 'String',
+                comment: 'i want to book an appointment',
+                createdAt: 'a time stamp'
+            })
+            .end((err, res) => {
+                should.equal(err, null)
+                res.should.have.status(200)
+                res.body.should.have.property('email')
+                res.body.name.should.equal('Jim')
+                done()
+            })
+    })
+})
+
+describe('GET /contact/all', function () {
+    this.timeout(15000)
+
+    it('Gets all contact', (done) => {
+        chai.request(app)
+            .get('/contact/all')
+            .end((err, res) => {
+                should.equal(err, null)
+                res.should.have.status(200)
+                res.body.should.be.a('array')
+                console.log(res.body)
+                res.body[0].should.have.property('email')
+                done()
+            })
+    })
+})
+
