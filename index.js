@@ -17,10 +17,12 @@ app.use(initializePassport)
 
 const bookings = require('./routes/bookings')
 const users = require('./routes/users')
+const contact = require('./routes/contact')
 
 // routing
 app.use('/bookings', bookings)
 app.use('/users', users)
+app.use('/contact', contact)
 
 // db connection
 mongoose.connect(config.mongoURI[app.settings.env],{ useNewUrlParser: true } ,(err)=>{
