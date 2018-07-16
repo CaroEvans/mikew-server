@@ -54,7 +54,8 @@ const signJwtForUser = (req, res) => {
   // create a signed token
   const token = JWT.sign(
     {
-      email: user.email
+      email: user.email,
+      role: user.role
     },
     jwtSecret,
     {
