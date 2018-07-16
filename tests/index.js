@@ -9,9 +9,9 @@ const mongoose = require('mongoose')
 chai.use(chaiHttp)
 
 // models
-// const Booking = require('../models/Booking')
+const User = require('../models/User')
 
-
+// Bookings
 
 describe('GET /bookings', function () {
     this.timeout(15000)
@@ -134,6 +134,9 @@ describe('GET /id', function () {
     })
 })
 
+
+// Contact
+
 describe('Post /contact/new', function () {
     this.timeout(15000)
 
@@ -168,8 +171,93 @@ describe('GET /contact/all', function () {
                 should.equal(err, null)
                 res.should.have.status(200)
                 res.body.should.be.a('array')
-                console.log(res.body)
                 res.body[0].should.have.property('email')
+                done()
+            })
+    })
+})
+
+// users
+
+
+describe('POST /users/register', function () {
+
+    this.timeout(15000)
+    beforeEach(function(done){
+        User.collection.drop();
+        done();
+      })
+
+    it('Gets all contact', (done) => {
+        chai.request(app)
+            .post('/users/register')
+            .send({
+                firstName:'String',
+                lastName:'String',
+                email:'jim@jim.com',
+                phoneNumber:'12312',
+                password:'pass123',
+                role:'client',
+                profileImg:'a cool images'
+            })
+            .end((err, res) => {
+                should.equal(err, null)
+                res.should.have.status(200)
+                res.body.should.have.property('token')
+                done()
+            })
+    })
+})
+
+
+describe('POST /users/login', function () {
+    this.timeout(15000)
+
+    it('Gets all contact', (done) => {
+        chai.request(app)
+            .post('/users/login')
+            .send({
+                email:'jim@jim.com',
+                password:'pass123',
+            })
+            .end((err, res) => {
+                should.equal(err, null)
+                res.should.have.status(200)
+                res.body.should.have.property('token')
+                done()
+            })
+    })
+})
+
+let id = ''
+
+describe('Get /users/all', function () {
+    this.timeout(15000)
+
+    it('Gets all contact', (done) => {
+        chai.request(app)
+            .get('/users/all')
+            .end((err, res) => {
+                should.equal(err, null)
+                res.should.have.status(200)
+                res.body[0].should.have.property('email')
+                id = res.body[0]._id
+                done()
+            })
+    })
+})
+
+describe('Get /users/id', function () {
+    this.timeout(15000)
+
+    it('Gets single contact', (done) => {
+        chai.request(app)
+            .get('/users/id')
+            .send({id})
+            .end((err, res) => {
+                should.equal(err, null)
+                res.should.have.status(200)
+                res.body.should.have.property('email')
                 done()
             })
     })
