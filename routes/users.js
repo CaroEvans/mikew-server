@@ -22,7 +22,7 @@ router.get('/id',(req,res) => {
     .catch(err => res.send(err))
 })
 
-router.get('user/bookings', (req, res) =>{
+router.get('/bookings', (req, res) =>{
     Booking.find({clientId: req.body.id})
     .then(bookings => res.send(bookings))
     .catch(err => res.send(err))
