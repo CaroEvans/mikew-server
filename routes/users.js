@@ -26,7 +26,7 @@ router.get('/id',(req,res) => {
 router.get('/bookings', (req, res) =>{
     Booking.find({clientId: req.body.id})
     .then(bookings => res.send(bookings))
-    .catch(err => {res.send(err)})
+    .catch(err => res.send(err))
 
 })
 
