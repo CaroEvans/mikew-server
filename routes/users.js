@@ -1,6 +1,7 @@
 const User = require('../models/User')
 const passport = require('passport')
 const router = require('express').Router()
+const Booking = require('../models/Booking')
 
 const { requireJwt, register, signJwtForUser, login } = require('../middleware/authentication')
 

@@ -263,3 +263,18 @@ describe('Get /users/id', function () {
     })
 })
 
+describe('Get /users/bookings', function () {
+    this.timeout(15000)
+
+    it('Gets contacts Bookings', (done) => {
+        chai.request(app)
+            .get('/users/bookings')
+            .send({id})
+            .end((err, res) => {
+                should.equal(err, null)
+                console.log(res.body)
+                res.should.have.status(200)
+                done()
+            })
+    })
+})
