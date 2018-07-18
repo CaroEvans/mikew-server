@@ -274,7 +274,6 @@ describe('Get /users/bookings', function () {
                 should.equal(err, null)
                 console.log(res.body)
                 res.should.have.status(200)
-                res.body.should.have.property('email')
                 done()
             })
     })
