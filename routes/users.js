@@ -1,6 +1,7 @@
 const User = require('../models/User')
 const passport = require('passport')
 const router = require('express').Router()
+const Booking = require('../models/Booking')
 
 const { requireJwt, register, signJwtForUser, login } = require('../middleware/authentication')
 
@@ -25,7 +26,7 @@ router.get('/id',(req,res) => {
 router.get('/bookings', (req, res) =>{
     Booking.find({clientId: req.body.id})
     .then(bookings => res.send(bookings))
-    .catch(err => res.send(err))
+    .catch(err => {res.send(err)})
 
 })
 
