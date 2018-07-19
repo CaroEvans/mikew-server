@@ -18,13 +18,13 @@ router.get('/all', (req,res)=>{
 
 
 router.get('/id',(req,res) => {
-    User.findById(req.body.id)
+    User.findById(req.query.id)
     .then(user =>  res.send(user))
     .catch(err => res.send(err))
 })
 
 router.get('/bookings', (req, res) =>{
-    Booking.find({clientId: req.body.id})
+    Booking.find({clientId: req.query.id})
     .then(bookings => res.send(bookings))
     .catch(err => res.send(err))
 
