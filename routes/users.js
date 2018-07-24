@@ -16,6 +16,12 @@ router.get('/all', (req,res)=>{
     .catch(err => res.send(err))
 })
 
+router.delete('/delete', (req,res) =>{
+    User.findByIdAndRemove(req.query.id)
+    .then(user =>  res.sendStatus(204))
+    .catch(err => res.send(err))
+} )
+
 
 router.get('/id',(req,res) => {
     User.findById(req.query.id)
