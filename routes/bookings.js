@@ -1,50 +1,14 @@
 const router = require('express').Router()
 const Booking = require('../models/Booking')
 
-// router.get('/', (req, res)=>{
-//     console.log(req.url)
-//     Booking.find()
-//     .then(bookings => res.send(bookings))
-//     .catch(err => res.send(err))
-// })
-
-
-
 router.get('/', (req, res)=>{
-    let search = req.url === '/' ? {} : {bookingStatus: req.url}
-    console.log(search)
-    Booking.find(search)
+    Booking.find()
     .then(bookings => res.send(bookings))
     .catch(err => res.send(err))
 })
 
-
-// router.get('/completed', (req, res)=>{
-//     Booking.find({bookingStatus: 'completed'})
-//     .then(bookings => res.send(bookings))
-//     .catch(err => res.send(err))
-// })
-
-router.get('/pending', (req, res)=>{
-    Booking.find({bookingStatus: 'pending'})
-    .then(bookings => {res.send(bookings)})
-    .catch(err => res.send(err))
-})
-
-router.get('/declined', (req, res)=>{
-    Booking.find({bookingStatus: 'declined'})
-    .then(bookings => {res.send(bookings)})
-    .catch(err => res.send(err))
-})
-
-router.get('/approved', (req, res)=>{
-    Booking.find({bookingStatus: 'approved'})
-    .then(bookings => {res.send(bookings)})
-    .catch(err => res.send(err))
-})
-
-router.get('/cancelled', (req, res)=>{
-    Booking.find({bookingStatus: 'cancelled'})
+router.get('/:status', (req, res)=>{
+    Booking.find({bookingStatus: req.params.status})
     .then(bookings => res.send(bookings))
     .catch(err => res.send(err))
 })
