@@ -1,17 +1,29 @@
 const router = require('express').Router()
 const Booking = require('../models/Booking')
 
+// router.get('/', (req, res)=>{
+//     console.log(req.url)
+//     Booking.find()
+//     .then(bookings => res.send(bookings))
+//     .catch(err => res.send(err))
+// })
+
+
+
 router.get('/', (req, res)=>{
-    Booking.find()
+    let search = req.url === '/' ? {} : {bookingStatus: req.url}
+    console.log(search)
+    Booking.find(search)
     .then(bookings => res.send(bookings))
     .catch(err => res.send(err))
 })
 
-router.get('/completed', (req, res)=>{
-    Booking.find({bookingStatus: 'completed'})
-    .then(bookings => res.send(bookings))
-    .catch(err => res.send(err))
-})
+
+// router.get('/completed', (req, res)=>{
+//     Booking.find({bookingStatus: 'completed'})
+//     .then(bookings => res.send(bookings))
+//     .catch(err => res.send(err))
+// })
 
 router.get('/pending', (req, res)=>{
     Booking.find({bookingStatus: 'pending'})
