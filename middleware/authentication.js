@@ -81,5 +81,6 @@ module.exports = {
   requireJwt: passport.authenticate('jwt', { session: false }),
   login: passport.authenticate('local', { session: false }),
   register,
-  signJwtForUser
+  signJwtForUser,
+  isAdmin
 }
