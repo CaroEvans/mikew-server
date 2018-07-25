@@ -1,9 +1,10 @@
 const router = require('express').Router()
 const Contact = require('../models/Contact')
 
+const { isAdmin, requireJwt } = require('../middleware/authentication')
 
 
-router.get('/all',(req,res)=>{
+router.get('/all',requireJwt ,isAdmin ,(req,res)=>{
     Contact.find()
     .then(contacts => res.send(contacts))
     .catch(err => res.send(err))

@@ -1,49 +1,27 @@
 const router = require('express').Router()
 const Booking = require('../models/Booking')
 
-router.get('/', (req, res)=>{
+const { requireJwt, isAdmin } = require('../middleware/authentication')
+
+router.get('/', requireJwt, isAdmin, (req, res)=>{
     Booking.find()
     .then(bookings => res.send(bookings))
     .catch(err => res.send(err))
 })
 
-router.get('/completed', (req, res)=>{
-    Booking.find({bookingStatus: 'completed'})
+router.get('/:status', requireJwt, isAdmin, (req, res)=>{
+    Booking.find({bookingStatus: req.params.status})
     .then(bookings => res.send(bookings))
     .catch(err => res.send(err))
 })
 
-router.get('/pending', (req, res)=>{
-    Booking.find({bookingStatus: 'pending'})
-    .then(bookings => {res.send(bookings)})
-    .catch(err => res.send(err))
-})
-
-router.get('/declined', (req, res)=>{
-    Booking.find({bookingStatus: 'declined'})
-    .then(bookings => {res.send(bookings)})
-    .catch(err => res.send(err))
-})
-
-router.get('/approved', (req, res)=>{
-    Booking.find({bookingStatus: 'approved'})
-    .then(bookings => {res.send(bookings)})
-    .catch(err => res.send(err))
-})
-
-router.get('/cancelled', (req, res)=>{
-    Booking.find({bookingStatus: 'cancelled'})
-    .then(bookings => res.send(bookings))
-    .catch(err => res.send(err))
-})
-
-router.get('/id',(req,res) => {
+router.get('/id',requireJwt, isAdmin,(req,res) => {
     Booking.findById(req.body.id)
     .then(booking =>  res.send(booking))
     .catch(err => res.send(err))
 })
 
-router.put('/id', (req,res) =>{
+router.put('/id',requireJwt, (req,res) =>{
     const id  = req.body.id
     const bodyInfo = req.body
     delete bodyInfo['id']
@@ -52,7 +30,7 @@ router.put('/id', (req,res) =>{
     .catch(err => res.send(err))
 })
 
-router.post('/new', (req,res)=>{
+router.post('/new', requireJwt, (req,res)=>{
     Booking.create(req.body)
     .then(booking =>  res.send(booking))
     .catch(err => res.send(err))

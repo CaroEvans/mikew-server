@@ -11,6 +11,83 @@ chai.use(chaiHttp)
 // models
 const User = require('../models/User')
 
+// test variables
+
+let id = ''
+let token = ''
+
+// users
+
+
+describe('POST /users/register', function () {
+
+    this.timeout(15000)
+    beforeEach(function(done){
+        User.collection.drop();
+        done();
+      })
+
+    it('Registers new user', (done) => {
+        chai.request(app)
+            .post('/users/register')
+            .send({
+                firstName:'String',
+                lastName:'String',
+                email:'jim@jim.com',
+                phoneNumber:'12312',
+                password:'pass123',
+                role:'admin',
+                profileImg:'a cool images'
+            })
+            .end((err, res) => {
+                should.equal(err, null)
+                res.should.have.status(200)
+                res.body.should.have.property('token')
+                done()
+            })
+    })
+})
+
+
+describe('POST /users/login', function () {
+    this.timeout(15000)
+
+    it('Login user and get token', (done) => {
+        chai.request(app)
+            .post('/users/login')
+            .send({
+                email:'jim@jim.com',
+                password:'pass123',
+            })
+            .end((err, res) => {
+                should.equal(err, null)
+                res.should.have.status(200)
+                token = `Bearer ${res.body.token}`
+                res.body.should.have.property('token')
+                done()
+            })
+    })
+})
+
+
+describe('Get /users/all', function () {
+    this.timeout(15000)
+
+    it('Gets all contacts', (done) => {
+        chai.request(app)
+            .get('/users/all')
+            .set('Authorization', token)
+            .end((err, res) => {
+                should.equal(err, null)
+                res.should.have.status(200)
+                res.body[0].should.have.property('email')
+                id = res.body[0]._id
+                done()
+            })
+    })
+})
+
+
 // Bookings
 
 describe('GET /bookings', function () {
@@ -19,6 +96,7 @@ describe('GET /bookings', function () {
     it('should return all our Bookings', (done) => {
         chai.request(app)
             .get('/bookings')
+            .set('Authorization', token)
             .end((err, res) => {
                 should.equal(err, null)
                 res.should.have.status(200)
@@ -37,6 +115,7 @@ describe('GET /bookings/completed', function () {
     it('should return all completed bookings', (done) => {
         chai.request(app)
             .get('/bookings/completed')
+            .set('Authorization', token)
             .end((err, res) => {
                 should.equal(err, null)
                 res.should.have.status(200)
@@ -55,6 +134,7 @@ describe('GET /bookings/pending', function () {
     it('should return all pending bookings', (done) => {
         chai.request(app)
             .get('/bookings/pending')
+            .set('Authorization', token)
             .end((err, res) => {
                 should.equal(err, null)
                 res.should.have.status(200)
@@ -73,6 +153,7 @@ describe('Post /bookings/new', function () {
     it('creates new booking', (done) => {
         chai.request(app)
             .post('/bookings/new')
+            .set('Authorization', token)
             .send({
                 'date': '20180715',
                 'startTime': '8:30',
@@ -95,9 +176,10 @@ describe('Post /bookings/new', function () {
 describe('PUT/id', function () {
     this.timeout(15000)
 
-    it('Gets single booking', (done) => {
+    it('Updates Booking', (done) => {
         chai.request(app)
             .put('/bookings/id')
+            .set('Authorization', token)
             .send({
                 'id': '5b454f5d1bba2a61ccd14a2c',
                 'cost': 1234,
@@ -114,33 +196,33 @@ describe('PUT/id', function () {
 
 
 
-describe('GET /id', function () {
-    this.timeout(15000)
+// describe('GET bookings/id', function () {
+//     this.timeout(15000)
 
-    it('Gets single booking', (done) => {
-        chai.request(app)
-            .get('/bookings/id')
-            .send({
-                'id': '5b454f5d1bba2a61ccd14a2c',
-            })
-            .end((err, res) => {
-                should.equal(err, null)
-                res.should.have.status(200)
-                // res.should.be.json
-                res.body.should.have.property('date')
-                res.body.cost.should.equal(1234)
-                done()
-            })
-    })
-})
+//     it('Gets single booking', (done) => {
+//         chai.request(app)
+//             .get('/bookings/id')
+//             .set('Authorization', token)
+//             .send({
+//                params: {'id': '5b454f5d1bba2a61ccd14a2c'}
+//             })
+//             .end((err, res) => {
+//                 should.equal(err, null)
+//                 res.should.have.status(200)
+//                 // res.body.should.have.property('date')
+//                 // res.body.cost.should.equal(1234)
+//                 done()
+//             })
+//     })
+// })
 
 
-// Contact
+// // Contact
 
 describe('Post /contact/new', function () {
     this.timeout(15000)
 
-    it('creates new booking', (done) => {
+    it('creates new contact form', (done) => {
         chai.request(app)
             .post('/contact/new')
             .send({
@@ -164,9 +246,10 @@ describe('Post /contact/new', function () {
 describe('GET /contact/all', function () {
     this.timeout(15000)
 
-    it('Gets all contact', (done) => {
+    it('Gets all contacts requests', (done) => {
         chai.request(app)
             .get('/contact/all')
+            .set('Authorization', token)
             .end((err, res) => {
                 should.equal(err, null)
                 res.should.have.status(200)
@@ -177,105 +260,36 @@ describe('GET /contact/all', function () {
     })
 })
 
-// users
 
+// /// below tests need updated
 
-describe('POST /users/register', function () {
+// describe('Get /users/id', function () {
+//     this.timeout(15000)
 
-    this.timeout(15000)
-    beforeEach(function(done){
-        User.collection.drop();
-        done();
-      })
+//     it('Gets single contact', (done) => {
+//         chai.request(app)
+//             .get('/users/id')
+//             .send({id})
+//             .end((err, res) => {
+//                 should.equal(err, null)
+//                 res.should.have.status(200)
+//                 // res.body.should.have.property('email')
+//                 done()
+//             })
+//     })
+// })
 
-    it('Gets all contact', (done) => {
-        chai.request(app)
-            .post('/users/register')
-            .send({
-                firstName:'String',
-                lastName:'String',
-                email:'jim@jim.com',
-                phoneNumber:'12312',
-                password:'pass123',
-                role:'client',
-                profileImg:'a cool images'
-            })
-            .end((err, res) => {
-                should.equal(err, null)
-                res.should.have.status(200)
-                res.body.should.have.property('token')
-                done()
-            })
-    })
-})
+// describe('Get /users/bookings', function () {
+//     this.timeout(15000)
 
-
-describe('POST /users/login', function () {
-    this.timeout(15000)
-
-    it('Gets all contact', (done) => {
-        chai.request(app)
-            .post('/users/login')
-            .send({
-                email:'jim@jim.com',
-                password:'pass123',
-            })
-            .end((err, res) => {
-                should.equal(err, null)
-                res.should.have.status(200)
-                res.body.should.have.property('token')
-                done()
-            })
-    })
-})
-
-let id = ''
-
-describe('Get /users/all', function () {
-    this.timeout(15000)
-
-    it('Gets all contact', (done) => {
-        chai.request(app)
-            .get('/users/all')
-            .end((err, res) => {
-                should.equal(err, null)
-                res.should.have.status(200)
-                res.body[0].should.have.property('email')
-                id = res.body[0]._id
-                done()
-            })
-    })
-})
-
-/// below tests need updated
-
-describe('Get /users/id', function () {
-    this.timeout(15000)
-
-    it('Gets single contact', (done) => {
-        chai.request(app)
-            .get('/users/id')
-            .send({id})
-            .end((err, res) => {
-                should.equal(err, null)
-                res.should.have.status(200)
-                // res.body.should.have.property('email')
-                done()
-            })
-    })
-})
-
-describe('Get /users/bookings', function () {
-    this.timeout(15000)
-
-    it('Gets contacts Bookings', (done) => {
-        chai.request(app)
-            .get('/users/bookings')
-            .send({id})
-            .end((err, res) => {
-                should.equal(err, null)
-                res.should.have.status(200)
-                done()
-            })
-    })
-})
+//     it('Gets contacts Bookings', (done) => {
+//         chai.request(app)
+//             .get('/users/bookings')
+//             .send({id})
+//             .end((err, res) => {
+//                 should.equal(err, null)
+//                 res.should.have.status(200)
+//                 done()
+//             })
+//     })
+// })
