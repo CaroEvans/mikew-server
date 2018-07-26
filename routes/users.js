@@ -8,7 +8,6 @@ const { requireJwt, register, signJwtForUser, login, isAdmin } = require('../mid
 router.post('/register', register, signJwtForUser)
 router.post('/login', login, signJwtForUser)
 
-// need to add auth middleware
 
 router.get('/all',requireJwt,isAdmin, (req,res)=>{
     User.find()

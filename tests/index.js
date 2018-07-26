@@ -196,27 +196,6 @@ describe('PUT/id', function () {
 
 
 
-// describe('GET bookings/id', function () {
-//     this.timeout(15000)
-
-//     it('Gets single booking', (done) => {
-//         chai.request(app)
-//             .get('/bookings/id')
-//             .set('Authorization', token)
-//             .send({
-//                params: {'id': '5b454f5d1bba2a61ccd14a2c'}
-//             })
-//             .end((err, res) => {
-//                 should.equal(err, null)
-//                 res.should.have.status(200)
-//                 // res.body.should.have.property('date')
-//                 // res.body.cost.should.equal(1234)
-//                 done()
-//             })
-//     })
-// })
-
-
 // // Contact
 
 describe('Post /contact/new', function () {
